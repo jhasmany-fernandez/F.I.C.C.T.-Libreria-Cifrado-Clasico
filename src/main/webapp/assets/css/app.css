@@ -1,0 +1,190 @@
+/* F.I.C.C.T. - Librería de Cifrado Clásico - Estilos Personalizados */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.jumbotron {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #343a40, #495057);
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    color: #212529;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.result-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 4px solid #007bff;
+}
+
+.error-section {
+    background-color: #f8d7da;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 4px solid #dc3545;
+    color: #721c24;
+}
+
+.success-section {
+    background-color: #d4edda;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 4px solid #28a745;
+    color: #155724;
+}
+
+.frequency-table {
+    font-size: 0.9rem;
+}
+
+.frequency-bar {
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    height: 20px;
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+.algorithm-info {
+    background-color: #e7f3ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    border-left: 4px solid #007bff;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 2rem 1rem;
+    }
+    
+    .jumbotron h1 {
+        font-size: 2rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Estilos para análisis */
+.analysis-chart {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.candidate-item {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px 0;
+    border-left: 3px solid #ffc107;
+}
+
+.best-candidate {
+    border-left-color: #28a745;
+    background-color: #d4edda;
+}
+
+/* Utilidades */
+.text-monospace {
+    font-family: 'Courier New', monospace;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.copy-button {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
