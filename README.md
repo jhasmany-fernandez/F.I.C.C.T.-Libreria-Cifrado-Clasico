@@ -43,13 +43,13 @@ Una librería web completa para el estudio y aplicación de algoritmos de cifrad
 - **PlayfairCipher** - Cifrado Playfair de pares
 - **XorCipher** - Operación XOR
 
-### **📊 Herramientas de Análisis**
+### **📊 Herramientas de Análisis y Configuración**
 - **FrequencyAnalyzer** - Análisis de frecuencias con índice de coincidencia
-- **CaesarBreaker** - Criptoanálisis automático de César por fuerza bruta
+- **Custom Alphabets** - Soporte para configuración de alfabetos personalizados (números, símbolos, espacios)
 
 ### **🌐 Controladores Web (Servlets)**
 - **CipherController** (`/cipher`) - Cifrado/descifrado via POST/GET
-- **AnalyzeController** (`/analyze`) - Análisis de frecuencias y criptoanálisis
+- **AnalyzeController** (`/analyze`) - Análisis de frecuencias y herramientas de análisis
 - **AlphabetController** (`/alphabet`) - Gestión de alfabetos
 
 ### **⚙️ Servicios**
@@ -72,7 +72,7 @@ Una librería web completa para el estudio y aplicación de algoritmos de cifrad
 1. **Interfaz Web Moderna** - Bootstrap 5, responsive, intuitiva
 2. **8 Algoritmos de Cifrado** implementados y funcionales  
 3. **Análisis Criptográfico** - Frecuencias e índice de coincidencia
-4. **Criptoanálisis Automático** - Romper cifrado César por heurística
+4. **Configuración de Alfabetos** - Soporte para alfabetos personalizados con números, símbolos y espacios
 5. **Configuración de Texto** - Preservar espacios, acentos, mayúsculas
 6. **API REST** - Endpoints JSON para integración
 7. **Validación Robusta** - Claves y parámetros validados
@@ -103,7 +103,7 @@ crypto-classic-jsp/
 │  │  │  │  └─ Keys.java
 │  │  │  ├─ analysis/                # ✅ Análisis criptográfico
 │  │  │  │  ├─ FrequencyAnalyzer.java
-│  │  │  │  └─ CaesarBreaker.java
+│  │  │  │  └─ AlphabetConfiguration.java
 │  │  │  ├─ service/                 # ✅ Servicios principales
 │  │  │  │  └─ CryptoService.java
 │  │  │  ├─ web/                     # ✅ Controladores web
@@ -203,14 +203,14 @@ El proyecto incluye todas las dependencias necesarias en el `pom.xml`:
 
 1. **Cifrado/Descifrado**: Seleccionar algoritmo, ingresar texto y clave
 2. **Análisis de Frecuencias**: Analizar distribución de caracteres
-3. **Criptoanálisis**: Romper automáticamente cifrados César
+3. **Configuración de Alfabetos**: Definir alfabetos personalizados con números, símbolos y espacios
 4. **Configuración**: Personalizar opciones de procesamiento de texto
 
 ## 🎯 **APIs Disponibles**
 
 - `POST /cipher` - Cifrar/descifrar texto
 - `GET /cipher` - Obtener algoritmos disponibles
-- `POST /analyze` - Análisis de frecuencias y criptoanálisis
+- `POST /analyze` - Análisis de frecuencias y herramientas de análisis
 - `GET/POST /alphabet` - Gestión de alfabetos
 
 ## ✅ **Estado de Completitud**
@@ -243,3 +243,5 @@ mvn jetty:run
 # Abrir http://localhost:9090/crypto
 ```
 
+## Online.
+[Caesar-cipher.com/](https://caesar-cipher.com/)<br>

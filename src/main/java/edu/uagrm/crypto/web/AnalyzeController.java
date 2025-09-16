@@ -4,11 +4,11 @@ import edu.uagrm.crypto.service.CryptoService;
 import edu.uagrm.crypto.analysis.CaesarBreaker;
 import edu.uagrm.crypto.util.JsonUtil;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,13 +30,15 @@ public class AnalyzeController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         
-        String analysisType = request.getParameter("type");
-        String text = request.getParameter("text");
-        
-        if (analysisType == null || text == null) {
-            response.getWriter().write(JsonUtil.createErrorResponse("Parámetros faltantes"));
+        // Validar parámetros
+        String validationError = validateAnalysisParameters(request);
+        if (validationError != null) {
+            response.getWriter().write(JsonUtil.createErrorResponse(validationError));
             return;
         }
+
+        String analysisType = request.getParameter("type");
+        String text = request.getParameter("text").trim();
         
         try {
             if ("frequency".equals(analysisType)) {
@@ -103,5 +105,44 @@ public class AnalyzeController extends HttpServlet {
         } else {
             response.getWriter().write(JsonUtil.createErrorResponse(result.getMessage()));
         }
+    }
+
+    private String validateAnalysisParameters(HttpServletRequest request) {
+        String analysisType = request.getParameter("type");
+        String text = request.getParameter("text");
+
+        // Validar tipo de análisis
+        if (analysisType == null || analysisType.trim().isEmpty()) {
+            return "El tipo de análisis es obligatorio";
+        }
+        if (!"frequency".equals(analysisType) && !"caesar".equals(analysisType)) {
+            return "Tipo de análisis no válido. Use 'frequency' o 'caesar'";
+        }
+
+        // Validar texto
+        if (text == null || text.trim().isEmpty()) {
+            return "El texto es obligatorio";
+        }
+
+        text = text.trim();
+
+        // Validaciones específicas según el tipo de análisis
+        if ("frequency".equals(analysisType)) {
+            if (text.length() < 10) {
+                return "El texto debe tener al menos 10 caracteres para un análisis de frecuencias significativo";
+            }
+            if (text.length() > 50000) {
+                return "El texto no puede exceder 50,000 caracteres para análisis de frecuencias";
+            }
+        } else if ("caesar".equals(analysisType)) {
+            if (text.length() < 20) {
+                return "El texto debe tener al menos 20 caracteres para un criptoanálisis efectivo";
+            }
+            if (text.length() > 10000) {
+                return "El texto no puede exceder 10,000 caracteres para criptoanálisis";
+            }
+        }
+
+        return null; // Sin errores
     }
 }

@@ -27,12 +27,13 @@ public class TextPreprocessor {
         
         StringBuilder filtered = new StringBuilder();
         for (char c : result.toCharArray()) {
-            if (alphabet.contains(c) || 
-                (options.isPreserveSpaces() && Character.isWhitespace(c))) {
+            if (alphabet.contains(c) ||
+                (options.isPreserveSpaces() && Character.isWhitespace(c)) ||
+                (options.isPreservePunctuation() && !Character.isLetterOrDigit(c) && !Character.isWhitespace(c))) {
                 filtered.append(c);
             }
         }
-        
+
         return filtered.toString();
     }
     

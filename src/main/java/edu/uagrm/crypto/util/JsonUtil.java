@@ -31,12 +31,31 @@ public class JsonUtil {
         } else if (value instanceof Number || value instanceof Boolean) {
             return value.toString();
         } else if (value instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> mapValue = (Map<String, Object>) value;
-            return toJson(mapValue);
+            return formatMap((Map<?, ?>) value);
         } else {
             return "\"" + escapeString(value.toString()) + "\"";
         }
+    }
+
+    private static String formatMap(Map<?, ?> map) {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+
+        boolean first = true;
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            if (!first) {
+                json.append(",");
+            }
+            first = false;
+
+            // Convertir la clave a string
+            String key = entry.getKey().toString();
+            json.append("\"").append(escapeString(key)).append("\":");
+            json.append(formatValue(entry.getValue()));
+        }
+
+        json.append("}");
+        return json.toString();
     }
     
     private static String escapeString(String str) {

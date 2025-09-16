@@ -125,17 +125,21 @@ public class CryptoService {
     
     // Métodos con selección dinámica de alfabeto
     public CryptoResult encrypt(String algorithm, String plaintext, String key, TextOptions options, String alphabetType) {
+        return encrypt(algorithm, plaintext, key, options, alphabetType, null);
+    }
+
+    public CryptoResult encrypt(String algorithm, String plaintext, String key, TextOptions options, String alphabetType, String customAlphabet) {
         try {
-            Alphabet selectedAlphabet = getAlphabetByType(alphabetType);
+            Alphabet selectedAlphabet = getAlphabetByTypeWithCustom(alphabetType, customAlphabet);
             CipherAlgorithm cipher = getAlgorithmWithAlphabet(algorithm, selectedAlphabet);
             if (cipher == null) {
                 return CryptoResult.error("Algoritmo no encontrado: " + algorithm);
             }
-            
+
             if (!cipher.isValidKey(key)) {
                 return CryptoResult.error("Clave inválida para " + cipher.getName());
             }
-            
+
             TextOptions processOptions = options != null ? options : defaultOptions;
             String normalizedText = TextPreprocessor.normalize(plaintext, processOptions, selectedAlphabet);
             String encrypted = cipher.encrypt(normalizedText, key);
@@ -148,33 +152,50 @@ public class CryptoService {
     }
     
     public CryptoResult decrypt(String algorithm, String ciphertext, String key, TextOptions options, String alphabetType) {
+        return decrypt(algorithm, ciphertext, key, options, alphabetType, null);
+    }
+
+    public CryptoResult decrypt(String algorithm, String ciphertext, String key, TextOptions options, String alphabetType, String customAlphabet) {
         try {
-            Alphabet selectedAlphabet = getAlphabetByType(alphabetType);
+            Alphabet selectedAlphabet = getAlphabetByTypeWithCustom(alphabetType, customAlphabet);
             CipherAlgorithm cipher = getAlgorithmWithAlphabet(algorithm, selectedAlphabet);
             if (cipher == null) {
                 return CryptoResult.error("Algoritmo no encontrado: " + algorithm);
             }
-            
+
             if (!cipher.isValidKey(key)) {
                 return CryptoResult.error("Clave inválida para " + cipher.getName());
             }
-            
+
             TextOptions processOptions = options != null ? options : defaultOptions;
             String normalizedText = TextPreprocessor.normalize(ciphertext, processOptions, selectedAlphabet);
             String decrypted = cipher.decrypt(normalizedText, key);
-            
+
             return CryptoResult.success(decrypted, "Texto descifrado exitosamente con " + cipher.getName() + " (Alfabeto " + alphabetType + ")");
-            
+
         } catch (Exception e) {
             return CryptoResult.error("Error durante el descifrado: " + e.getMessage());
         }
     }
     
     private Alphabet getAlphabetByType(String alphabetType) {
-        if ("english".equalsIgnoreCase(alphabetType)) {
-            return Alphabet.getEnglish();
+        switch (alphabetType.toLowerCase()) {
+            case "english":
+                return Alphabet.getEnglish();
+            case "spanish":
+                return Alphabet.getSpanish();
+            case "full_ascii":
+                return Alphabet.getFullAscii();
+            default:
+                return Alphabet.getEnglish();
+        }
+    }
+
+    public Alphabet getAlphabetByTypeWithCustom(String alphabetType, String customAlphabet) {
+        if ("custom".equalsIgnoreCase(alphabetType) && customAlphabet != null && !customAlphabet.trim().isEmpty()) {
+            return Alphabet.createCustom(customAlphabet.trim());
         } else {
-            return Alphabet.getSpanish();
+            return getAlphabetByType(alphabetType);
         }
     }
     

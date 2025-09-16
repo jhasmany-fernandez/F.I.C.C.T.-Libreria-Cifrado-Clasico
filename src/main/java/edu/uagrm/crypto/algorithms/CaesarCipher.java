@@ -38,17 +38,24 @@ public class CaesarCipher implements CipherAlgorithm {
     
     private String shift(String text, int shift) {
         StringBuilder result = new StringBuilder();
-        
+
         for (char c : text.toCharArray()) {
             if (alphabet.contains(c)) {
+                boolean isLowerCase = Character.isLowerCase(c);
                 int index = alphabet.indexOf(c);
                 int newIndex = (index + shift + alphabet.size()) % alphabet.size();
-                result.append(alphabet.charAt(newIndex));
+                char shiftedChar = alphabet.charAt(newIndex);
+
+                if (isLowerCase) {
+                    result.append(Character.toLowerCase(shiftedChar));
+                } else {
+                    result.append(shiftedChar);
+                }
             } else {
                 result.append(c);
             }
         }
-        
+
         return result.toString();
     }
     

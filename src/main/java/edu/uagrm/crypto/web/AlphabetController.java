@@ -3,11 +3,11 @@ package edu.uagrm.crypto.web;
 import edu.uagrm.crypto.core.Alphabet;
 import edu.uagrm.crypto.util.JsonUtil;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +23,9 @@ public class AlphabetController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         
         Map<String, Object> data = new HashMap<>();
-        data.put("spanish", Alphabet.SPANISH);
         data.put("english", Alphabet.ENGLISH);
+        data.put("spanish", Alphabet.SPANISH);
+        data.put("full_ascii", Alphabet.FULL_ASCII);
         data.put("numbers", Alphabet.NUMBERS);
         
         response.getWriter().write(JsonUtil.toJson(data));
