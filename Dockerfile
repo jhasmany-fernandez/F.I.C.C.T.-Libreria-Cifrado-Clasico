@@ -47,7 +47,7 @@ ENV JAVA_OPTS="-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
 RUN rm -rf $CATALINA_HOME/webapps/*
 
 # Copiar el WAR desde el stage de build
-COPY --from=builder /app/target/crypto-classic-jsp.war $CATALINA_HOME/webapps/crypto.war
+COPY --from=builder /app/target/crypto-classic-jsp.war $CATALINA_HOME/webapps/ROOT.war
 
 # Crear directorio para logs
 RUN mkdir -p $CATALINA_HOME/logs
@@ -60,7 +60,7 @@ EXPOSE 8080
 
 # Health check para verificar que la aplicación esté funcionando
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/crypto/ || exit 1
+    CMD curl -f http://localhost:8080/ || exit 1
 
 # Comando para iniciar Tomcat
 CMD ["catalina.sh", "run"]
