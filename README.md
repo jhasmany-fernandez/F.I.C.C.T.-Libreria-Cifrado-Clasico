@@ -131,6 +131,187 @@ crypto-classic-jsp/
 │     └─ service/CryptoServiceTest.java
 ```
 
+## 📥 **Clonación e Instalación en Otro Equipo**
+
+### **📋 Prerrequisitos**
+
+Antes de clonar el proyecto, asegúrate de tener instalado:
+
+1. **Java Development Kit (JDK)**
+   ```bash
+   # Verificar versión (requiere JDK 21 o superior)
+   java --version
+   javac --version
+
+   # Si no tienes JDK 21, descargar desde:
+   # https://adoptium.net/temurin/releases/
+   ```
+
+2. **Apache Maven**
+   ```bash
+   # Verificar versión (requiere Maven 3.6 o superior)
+   mvn --version
+
+   # Si no tienes Maven, instalar:
+   # Ubuntu/Debian: sudo apt install maven
+   # Windows: descargar desde https://maven.apache.org/download.cgi
+   # macOS: brew install maven
+   ```
+
+3. **Git**
+   ```bash
+   # Verificar Git
+   git --version
+   ```
+
+### **🚀 Pasos de Instalación**
+
+#### **1. Clonar el Repositorio**
+```bash
+# Opción 1: HTTPS
+git clone https://github.com/usuario/F.I.C.C.T.-Libreria-Cifrado-Clasico.git
+
+# Opción 2: SSH (si tienes configurada la clave SSH)
+git clone git@github.com:usuario/F.I.C.C.T.-Libreria-Cifrado-Clasico.git
+
+# Navegar al directorio del proyecto
+cd F.I.C.C.T.-Libreria-Cifrado-Clasico
+```
+
+#### **2. Verificar la Estructura del Proyecto**
+```bash
+# Listar archivos principales
+ls -la
+
+# Verificar que existe pom.xml
+cat pom.xml | head -10
+```
+
+#### **3. Instalar Dependencias**
+```bash
+# Limpiar compilaciones anteriores y descargar dependencias
+mvn clean install
+
+# Verificar que no hay errores
+mvn compile
+```
+
+#### **4. Ejecutar Tests (Opcional)**
+```bash
+# Ejecutar todos los tests para verificar que todo funciona
+mvn test
+
+# Deberías ver:
+# Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+# [INFO] BUILD SUCCESS
+```
+
+#### **5. Iniciar la Aplicación**
+```bash
+# Opción A: Usar Jetty (Recomendado para desarrollo)
+mvn jetty:run
+
+# La aplicación estará disponible en:
+# http://localhost:9090/crypto
+
+# Opción B: Generar WAR para Tomcat
+mvn package
+# El archivo WAR se genera en: target/crypto-classic-jsp-1.0-SNAPSHOT.war
+```
+
+### **🔧 Solución de Problemas Comunes**
+
+#### **❌ Error: "JAVA_HOME not set"**
+```bash
+# Linux/macOS
+export JAVA_HOME=/path/to/your/jdk
+echo 'export JAVA_HOME=/path/to/your/jdk' >> ~/.bashrc
+
+# Windows
+set JAVA_HOME=C:\path\to\your\jdk
+# O configurar en Variables de Entorno del Sistema
+```
+
+#### **❌ Error: "Maven command not found"**
+```bash
+# Verificar PATH
+echo $PATH
+
+# Agregar Maven al PATH
+export PATH=$PATH:/path/to/maven/bin
+```
+
+#### **❌ Error: "Port 9090 already in use"**
+```bash
+# Encontrar proceso usando el puerto
+lsof -i :9090  # Linux/macOS
+netstat -ano | findstr :9090  # Windows
+
+# Terminar el proceso o cambiar puerto en pom.xml
+```
+
+#### **❌ Error de compilación**
+```bash
+# Limpiar y recompilar
+mvn clean
+mvn compile
+
+# Si persiste, verificar versión de Java
+java --version
+```
+
+### **🌐 Configuración de Puertos**
+
+Si necesitas cambiar el puerto por defecto:
+
+1. **Para Jetty (puerto 9090):**
+   ```xml
+   <!-- En pom.xml, buscar jetty-maven-plugin -->
+   <configuration>
+       <httpConnector>
+           <port>8080</port>  <!-- Cambiar aquí -->
+       </httpConnector>
+   </configuration>
+   ```
+
+2. **Para Tomcat (puerto 8080):**
+   ```xml
+   <!-- En server.xml de Tomcat -->
+   <Connector port="8080" protocol="HTTP/1.1"
+              connectionTimeout="20000"
+              redirectPort="8443" />
+   ```
+
+### **📱 Acceso desde Otros Dispositivos**
+
+Para acceder desde otros dispositivos en la misma red:
+
+```bash
+# Encontrar tu IP local
+ip addr show  # Linux
+ipconfig      # Windows
+ifconfig      # macOS
+
+# Acceder desde otro dispositivo:
+# http://TU_IP_LOCAL:9090/crypto
+# Ejemplo: http://192.168.1.100:9090/crypto
+```
+
+### **🔄 Actualizar el Proyecto**
+
+Para obtener la última versión:
+
+```bash
+# Actualizar desde el repositorio
+git pull origin main
+
+# Reinstalar dependencias si hay cambios en pom.xml
+mvn clean install
+
+# Reiniciar la aplicación
+mvn jetty:run
+```
+
 ## 🚀 **Instrucciones de Despliegue**
 
 ### **Opción 1: Ejecutar con Jetty (Recomendado para desarrollo)**
@@ -234,14 +415,46 @@ Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
 
 **🎉 El proyecto está 100% completo, probado y listo para despliegue inmediato.**
 
-## 🚀 **Inicio Rápido**
+## ⚡ **Inicio Rápido (Para Desarrolladores)**
 
 ```bash
-git clone [repository-url]
+# 1. Clonar repositorio
+git clone https://github.com/usuario/F.I.C.C.T.-Libreria-Cifrado-Clasico.git
 cd F.I.C.C.T.-Libreria-Cifrado-Clasico
+
+# 2. Verificar prerrequisitos
+java --version    # Requiere JDK 21+
+mvn --version     # Requiere Maven 3.6+
+
+# 3. Instalar y ejecutar
+mvn clean install
 mvn jetty:run
-# Abrir http://localhost:9090/crypto
+
+# 4. Acceder a la aplicación
+# 🌐 http://localhost:9090/crypto
 ```
+
+### **🎯 Funcionalidades Principales Disponibles:**
+
+1. **🔐 Cifrado/Descifrado**
+   - 8 algoritmos clásicos implementados
+   - Soporte para 3 tipos de alfabeto (Inglés, Español, ASCII Completo)
+   - Validación de claves en tiempo real
+
+2. **📊 Criptoanálisis**
+   - Ataque de fuerza bruta para César
+   - Análisis de frecuencias para Vigenère
+   - Resultados con puntuaciones de probabilidad
+
+3. **📈 Análisis de Frecuencias**
+   - Distribución de caracteres
+   - Índice de coincidencia
+   - Gráficos interactivos
+
+4. **⚙️ Configuración Avanzada**
+   - Alfabetos personalizados
+   - Opciones de procesamiento de texto
+   - Preservación de espacios y acentos
 
 ## Online.
 [Caesar-cipher.com/](https://caesar-cipher.com/)<br>
