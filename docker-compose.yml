@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  # =============================================
+  # F.I.C.C.T. - Aplicación Principal
+  # =============================================
+  ficct-crypto:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ficct/crypto-classic:latest
+    container_name: ficct-crypto-app
+    ports:
+      - "8080:8080"
+    environment:
+      # Configuración de JVM
+      - JAVA_OPTS=-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom
+      # Configuración de zona horaria
+      - TZ=America/La_Paz
+    volumes:
+      # Montar logs para poder acceder externamente
+      - ./logs:/usr/local/tomcat/logs
+    networks:
+      - ficct-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/crypto/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ficct.rule=Host(`crypto.local`)"
+      - "traefik.http.services.ficct.loadbalancer.server.port=8080"
+
+  # =============================================
+  # Nginx - Proxy Reverso (Opcional)
+  # =============================================
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: ficct-nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ficct-crypto
+    networks:
+      - ficct-network
+    restart: unless-stopped
+    profiles:
+      - proxy
+
+  # =============================================
+  # Servidor de Desarrollo (Jetty)
+  # =============================================
+  ficct-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: ficct/crypto-dev:latest
+    container_name: ficct-crypto-dev
+    ports:
+      - "9090:9090"
+    volumes:
+      # Montar código fuente para desarrollo
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      - ./target:/app/target
+    environment:
+      - MAVEN_OPTS=-Xmx1024m
+    networks:
+      - ficct-network
+    restart: unless-stopped
+    profiles:
+      - development
+
+# =============================================
+# Configuración de Redes
+# =============================================
+networks:
+  ficct-network:
+    driver: bridge
+    name: ficct-crypto-network
+
+# =============================================
+# Configuración de Volúmenes Persistentes
+# =============================================
+volumes:
+  ficct-logs:
+    driver: local
+    name: ficct-crypto-logs

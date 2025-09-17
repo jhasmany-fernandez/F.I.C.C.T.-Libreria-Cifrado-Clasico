@@ -1,0 +1,39 @@
+# Dockerfile para desarrollo con Jetty
+# Basado en la configuración actual de desarrollo
+
+FROM maven:3.9.4-eclipse-temurin-21
+
+# Etiquetas para identificación
+LABEL description="F.I.C.C.T. Development Environment with Jetty"
+LABEL version="1.0-dev"
+
+# Instalar herramientas adicionales para desarrollo
+RUN apt-get update && apt-get install -y \
+    curl \
+    vim \
+    less \
+    && rm -rf /var/lib/apt/lists/*
+
+# Establecer directorio de trabajo
+WORKDIR /app
+
+# Copiar archivos de configuración de Maven
+COPY pom.xml .
+
+# Descargar dependencias
+RUN mvn dependency:go-offline -B
+
+# Copiar código fuente
+COPY src ./src
+
+# Compilar el proyecto
+RUN mvn clean compile -B
+
+# Exponer puerto 9090 (mismo que usa Jetty en desarrollo)
+EXPOSE 9090
+
+# Configurar variables de entorno
+ENV MAVEN_OPTS="-Xmx1024m"
+
+# Comando para ejecutar Jetty en modo desarrollo
+CMD ["mvn", "jetty:run", "-Djetty.port=9090", "-Djetty.host=0.0.0.0"]
