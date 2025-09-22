@@ -31,7 +31,7 @@ RUN ls -la target/ && test -f target/crypto-classic-jsp.war
 # =============================================
 # RUNTIME STAGE - Servidor Tomcat para producción
 # =============================================
-FROM tomcat:10.1-jdk21-temurin
+FROM tomcat:9.0-jdk21-temurin
 
 # Etiquetas para identificación
 LABEL maintainer="F.I.C.C.T. UAGRM"

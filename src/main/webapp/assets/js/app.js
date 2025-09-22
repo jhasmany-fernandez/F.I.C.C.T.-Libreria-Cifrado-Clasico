@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoading(cipherResult);
 
             try {
-                const response = await fetch('/crypto/cipher', {
+                const response = await fetch('/cipher', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoading(analysisResult);
 
             try {
-                const response = await fetch('/crypto/analyze', {
+                const response = await fetch('/analyze', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoading(analysisResult);
 
             try {
-                const response = await fetch('/crypto/analyze', {
+                const response = await fetch('/analyze', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoading(analysisResult);
 
             try {
-                const response = await fetch('/crypto/analyze', {
+                const response = await fetch('/analyze', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'

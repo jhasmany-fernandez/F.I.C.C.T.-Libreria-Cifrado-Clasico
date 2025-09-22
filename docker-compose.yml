@@ -1,4 +1,5 @@
-version: '3.8'
+# Docker Compose para F.I.C.C.T. - Librería de Cifrado Clásico
+# Versión actualizada y corregida para compatibilidad universal
 
 services:
   # =============================================
@@ -24,7 +25,7 @@ services:
       - ficct-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/crypto/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 30s
       timeout: 10s
       retries: 3
